@@ -8,6 +8,9 @@
 		<version>2.1.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	
+	<packaging>jar</packaging>
+		
 	<groupId>com.example</groupId>
 	<artifactId>itau-api-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -77,7 +80,33 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>			
+			</plugin>
+           <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+				    <execution>
+				      <id>copy-resources</id>
+				      <phase>install</phase>
+				      <goals>
+				        <goal>copy-resources</goal>
+				      </goals>
+				      <configuration>
+				      <outputDirectory>${project.basedir}/src/main/docker</outputDirectory>
+				      <resources>
+				        <resource>
+				          <directory>${project.build.directory}</directory>
+ 						  <includes>
+                              <include>**/${build.finalName}.jar</include>
+                          </includes>				          
+				          <!-- Don't filter binary files -->
+				          <filtering>false</filtering>
+				        </resource>
+				      </resources>
+				      </configuration>
+				    </execution>
+                </executions>
+            </plugin>						
 		</plugins>
 	</build>
 
